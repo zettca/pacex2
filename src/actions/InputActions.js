@@ -1,12 +1,17 @@
 import dispatcher from '../Dispatcher';
 
-export function updateValue(type, name, value) {
+export function updateTime(value) {
   dispatcher.dispatch({
     type: 'CALCULATE',
-    calcType: type,
-    name,
+    input: 'time',
     value,
   });
 }
 
-
+export function updateDistance(value) {
+  dispatcher.dispatch({
+    type: 'CALCULATE',
+    input: 'distance',
+    value,
+  });
+}

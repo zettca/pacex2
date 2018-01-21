@@ -1,29 +1,28 @@
 import { EventEmitter } from 'events';
 
 import dispatcher from '../Dispatcher';
+import distancesConfig from '../distancesConfig';
 
 class DataStore extends EventEmitter {
   constructor() {
     super();
-    this.settings = {
-      units: 'metric' || 'imperial',
-      distance: 'short' || 'medium' || 'long',
+    this.settings = JSON.parse(localStorage.getItem('settings')) || {
+      units: 'km' || 'mile',
+      distance: 'short' || 'medium' || 'long' || 'ultra',
     };
+
+    const configs = distancesConfig[this.settings.distance];
     this.inputs = {
-      time: {
-        min: 1,
-        max: 10000,
+      pace: {
         value: 2,
+      },
+      time: {
+        value: 2,
+        config: configs.time,
       },
       distance: {
-        min: 1,
-        max: 10000,
         value: 2,
-      },
-      pace: {
-        min: 1,
-        max: 10000,
-        value: 2,
+        config: configs.distance,
       },
     };
   }
@@ -32,15 +31,20 @@ class DataStore extends EventEmitter {
     return this.inputs;
   }
 
-  getInputValues() {
-    return Object.keys(this.inputs).reduce((obj, input) => {
-      obj[input] = this.inputs[input].value;
-      return obj;
-    }, {});
+  getPace() {
+    return this.inputs.pace;
   }
 
-  getSettings() {
-    return this.settings;
+  getTime() {
+    return this.inputs.time;
+  }
+
+  getDistance() {
+    return this.inputs.distance;
+  }
+
+  getUnits() {
+    return this.settings.units;
   }
 
   getValue(key) {
@@ -53,21 +57,17 @@ class DataStore extends EventEmitter {
     }
   }
 
-  calculateData(type) {
+  setUnits(units) {
+    this.settings.units = units;
+  }
+
+  setDistance(distance) {
+    this.settings.distance = distance;
+  }
+
+  updatePace() {
     const { time, distance, pace } = this.inputs;
-    switch (type) {
-      case 'time':
-        time.value = pace.value * distance.value;
-        break;
-      case 'distance':
-        distance.value = time.value / pace.value;
-        break;
-      case 'pace':
-        pace.value = time.value / distance.value;
-        break;
-      default:
-        break;
-    }
+    pace.value = time.value / distance.value;
   }
 
   handleAction(action) {
@@ -75,10 +75,14 @@ class DataStore extends EventEmitter {
 
     switch (action.type) {
       case 'CALCULATE':
-        this.setValue(action.name, action.value);
-        this.calculateData(action.calcType);
+        this.setValue(action.input, action.value);
+        this.updatePace();
         break;
       case 'SETTINGS':
+        if (action.input === 'units') this.setUnits(action.value);
+        if (action.input === 'distance') this.setDistance(action.value);
+
+        localStorage.setItem('settings', JSON.stringify(this.settings));
         break;
       default:
         break;
@@ -88,6 +92,7 @@ class DataStore extends EventEmitter {
 }
 
 const dataStore = new DataStore();
+window.STORE = dataStore;
 dispatcher.register(dataStore.handleAction.bind(dataStore));
 
 export default dataStore;
