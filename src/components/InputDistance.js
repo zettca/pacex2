@@ -14,9 +14,16 @@ class InputDistance extends React.Component {
   }
 
   componentWillMount() {
-    DataStore.on('changed', () => {
-      this.setState(DataStore.getDistance());
-    });
+    this.handleDataChange = this.handleDataChange.bind(this);
+    DataStore.on('changed', this.handleDataChange);
+  }
+
+  componentWillUnmount() {
+    DataStore.removeListener('changed', this.handleDataChange);
+  }
+
+  handleDataChange() {
+    this.setState(DataStore.getDistance());
   }
 
   handleChange(event) {

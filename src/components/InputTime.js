@@ -13,9 +13,16 @@ class InputTime extends React.Component {
   }
 
   componentWillMount() {
-    DataStore.on('changed', () => {
-      this.setState(DataStore.getTime());
-    });
+    this.handleDataChange = this.handleDataChange.bind(this);
+    DataStore.on('changed', this.handleDataChange);
+  }
+
+  componentWillUnmount() {
+    DataStore.removeListener('changed', this.handleDataChange);
+  }
+
+  handleDataChange() {
+    this.setState(DataStore.getTime());
   }
 
   handleChange(event) {

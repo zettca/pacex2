@@ -12,9 +12,16 @@ class InputPace extends React.Component {
   }
 
   componentWillMount() {
-    DataStore.on('changed', () => {
-      this.setState(DataStore.getPace());
-    });
+    this.handleDataChange = this.handleDataChange.bind(this);
+    DataStore.on('changed', this.handleDataChange);
+  }
+
+  componentWillUnmount() {
+    DataStore.removeListener('changed', this.handleDataChange);
+  }
+
+  handleDataChange() {
+    this.setState(DataStore.getPace());
   }
 
   parsePace(pace) {
