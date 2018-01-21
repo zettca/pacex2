@@ -71,8 +71,6 @@ class DataStore extends EventEmitter {
   }
 
   handleAction(action) {
-    console.log(action);
-
     switch (action.type) {
       case 'CALCULATE':
         this.setValue(action.input, action.value);
