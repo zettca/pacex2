@@ -7,23 +7,22 @@ class DataStore extends EventEmitter {
   constructor() {
     super();
     this.settings = JSON.parse(localStorage.getItem('settings')) || {
-      units: 'km' || 'mile',
-      distance: 'short' || 'medium' || 'long' || 'ultra',
+      units: 'km' || 'mi',
+      distance: 'medium' || 'long' || 'ultra',
     };
 
-    const putMiddle = (min, max) => min + Math.floor((max - min) / 2);
-    const configs = distances[this.settings.distance];
+    const { time, distance } = distances[this.settings.distance];
     this.inputs = {
       pace: {
         value: 1,
       },
       time: {
-        config: configs.time,
-        value: putMiddle(configs.time.max, configs.time.min),
+        config: time,
+        value: this.midPoint(time.max, time.min),
       },
       distance: {
-        config: configs.distance,
-        value: putMiddle(configs.distance.max, configs.distance.min),
+        config: distance,
+        value: this.midPoint(distance.max, distance.min),
       },
     };
   }
@@ -44,6 +43,10 @@ class DataStore extends EventEmitter {
     return this.settings.units;
   }
 
+  getSettings() {
+    return this.settings;
+  }
+
   getInput(key) {
     return key ? this.inputs[key] : this.inputs;
   }
@@ -60,11 +63,25 @@ class DataStore extends EventEmitter {
 
   setDistance(distance) {
     this.settings.distance = distance;
+    this.updateDistances();
+  }
+
+  updateDistances() {
+    const { time, distance } = this.inputs;
+    const configs = distances[this.settings.distance];
+    time.config = configs.time;
+    time.value = this.midPoint(configs.time.min, configs.time.max);
+    distance.config = configs.distance;
+    distance.value = this.midPoint(configs.distance.min, configs.distance.max);
   }
 
   updatePace() {
     const { time, distance, pace } = this.inputs;
     pace.value = time.value / distance.value;
+  }
+
+  midPoint(min, max) {
+    return min + Math.floor((max - min) / 2);
   }
 
   handleAction(action) {

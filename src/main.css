@@ -2,17 +2,18 @@
 body {
   margin: 0;
   padding: 0;
+  color: #212121;
   background: #009688;
   font-family: 'Open Sans', sans-serif;
 }
 
 a {
-  color: #CDDC39;
+  color: #FFEB3B;
   text-decoration: none;
 }
 
 h1, h2, h3 {
-  margin: 0;
+  margin: 0 0 0.4rem;
   font-weight: normal;
 }
 

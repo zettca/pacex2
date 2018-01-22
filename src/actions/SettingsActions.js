@@ -1,18 +1,10 @@
 import dispatcher from '../Dispatcher';
 
-export function changeUnitsMetric() {
+export function changeUnits(value) {
   dispatcher.dispatch({
     type: 'SETTINGS',
     input: 'units',
-    value: 'km',
-  });
-}
-
-export function changeUnitsImperial() {
-  dispatcher.dispatch({
-    type: 'SETTINGS',
-    input: 'units',
-    value: 'mile',
+    value,
   });
 }
 

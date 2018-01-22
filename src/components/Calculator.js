@@ -10,7 +10,7 @@ class Calculator extends React.PureComponent {
   }
 
   formatDistance(dist, units) {
-    const multi = (units === 'mile') ? 1610 : 1000;
+    const multi = (units === 'mi') ? 1610 : 1000;
     return (dist / multi).toFixed(1) + units;
   }
 
