@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 
 import dispatcher from '../Dispatcher';
-import distancesConfig from '../distancesConfig';
+import { distances } from './dataConfig';
 
 class DataStore extends EventEmitter {
   constructor() {
@@ -11,24 +11,21 @@ class DataStore extends EventEmitter {
       distance: 'short' || 'medium' || 'long' || 'ultra',
     };
 
-    const configs = distancesConfig[this.settings.distance];
+    const putMiddle = (min, max) => min + Math.floor((max - min) / 2);
+    const configs = distances[this.settings.distance];
     this.inputs = {
       pace: {
-        value: 2,
+        value: 1,
       },
       time: {
-        value: 2,
         config: configs.time,
+        value: putMiddle(configs.time.max, configs.time.min),
       },
       distance: {
-        value: 2,
         config: configs.distance,
+        value: putMiddle(configs.distance.max, configs.distance.min),
       },
     };
-  }
-
-  getInputs() {
-    return this.inputs;
   }
 
   getPace() {
@@ -47,8 +44,8 @@ class DataStore extends EventEmitter {
     return this.settings.units;
   }
 
-  getValue(key) {
-    return this.inputs[key].value;
+  getInput(key) {
+    return key ? this.inputs[key] : this.inputs;
   }
 
   setValue(key, value) {

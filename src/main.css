@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
 body {
   margin: 0;
   padding: 0;
   background: #009688;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 a {
@@ -13,7 +13,7 @@ a {
 
 h1, h2, h3 {
   margin: 0;
-  font-weight: 500;
+  font-weight: normal;
 }
 
 header, main {
@@ -40,15 +40,27 @@ main {
 }
 
 main>div {
+  position: relative;
   width: 100%;
   margin: 2rem;
-  padding: 2rem;
+  padding: 1rem 2rem;
   text-align: center;
   background: #FAFAFA;
   border-radius: 4px;
+  animation: fade ease-out 0.4s;
+}
+
+@keyframes fade {
+  from {
+    top: 1rem;
+    opacity: 0;
+  }
+  to {
+    top: 0;
+    opacity: 1;
+  }
 }
 
 section {
-  padding: 1rem 0;
-  margin: 0 1.4rem;
+  margin: 0 1rem 1rem;
 }

@@ -2,7 +2,7 @@ function makeConfig(label, value) {
   return { label, value };
 }
 
-const distancesConfig = {
+export const distances = {
   short: {
     time: {
       min: 3 * 60,
@@ -52,5 +52,3 @@ const distancesConfig = {
     }
   },
 };
-
-export default distancesConfig;

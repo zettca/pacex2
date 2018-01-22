@@ -3,7 +3,11 @@ import React from 'react';
 class Settings extends React.PureComponent {
   render() {
     return (
-      <div>Settings</div>
+      <div>
+        <section>
+          <h2>Settings</h2>
+        </section>
+      </div>
     );
   }
 }

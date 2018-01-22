@@ -20,10 +20,8 @@ class App extends React.PureComponent {
             </nav>
           </header>
           <main>
-            <div>
-              <Route exact path={base + '/'} component={Calculator} />
-              <Route path={base + '/settings'} component={Settings} />
-            </div>
+            <Route exact path={base + '/'} component={Calculator} />
+            <Route path={base + '/settings'} component={Settings} />
           </main>
         </div>
       </BrowserRouter>

@@ -33,12 +33,24 @@ class InputPace extends React.Component {
     return [mpk, (mpk % 1) * 60].map(Math.floor).map(f00).join(':') + '/' + units;
   }
 
+  parseSpeed(pace) {
+    const { units } = this.state;
+    const mps = 1 / pace; // meter/sec
+    const kph = mps * (3600 / 1000);
+
+    return `${kph.toFixed(1)} ${units}/h`;
+  }
+
+  formatValue(value) {
+    const isPace = true;
+    return (isPace) ? this.parsePace(value) : this.parseSpeed(value);
+  }
+
   render() {
     const { value } = this.state.input;
     return (
       <section>
-        <h2>Pace</h2>
-        <div>{this.parsePace(value)}</div>
+        <h2>{`Pace ${this.formatValue(value)}`}</h2>
       </section>
     );
   }
