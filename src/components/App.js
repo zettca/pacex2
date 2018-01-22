@@ -11,13 +11,12 @@ class App extends React.PureComponent {
         <div className='App'>
           <header>
             <nav>
-              <Link to={base + '/'}>
-                <h3>PaceX</h3>
-              </Link>
-              <Link to={base + '/settings'}>
-                <h3>Settings</h3>
-              </Link>
-            </nav>
+              <h3>
+                <Link to={base + '/'}>PaceX</Link>
+              </h3>
+              <h3>
+                <Link to={base + '/settings'}>Settings</Link>
+              </h3>            </nav>
           </header>
           <main>
             <Route exact path={base + '/'} component={Calculator} />

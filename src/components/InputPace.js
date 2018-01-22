@@ -49,7 +49,7 @@ class InputPace extends React.Component {
   render() {
     const { value } = this.state.input;
     return (
-      <section>
+      <section className='bordered'>
         <h2>{`Pace ${this.formatValue(value)}`}</h2>
       </section>
     );

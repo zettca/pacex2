@@ -26,3 +26,8 @@
   line-height: 1em;
   vertical-align: middle;
 }
+
+.bordered {
+  border-radius: 2px;
+  box-shadow: 0px 0px 2px #212121;
+}
